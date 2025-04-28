@@ -1,0 +1,31 @@
+{% block title %}Chat with Gemini{% endblock title %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+  Hii {{user}}
+  <div class="chat-container">
+    {% for chat in chats %}
+    <strong>You:</strong> {{chat.text_input}} <br>
+    <strong>Gemini:</strong> {{chat.gemini_output}}
+    <div style="font-size: 0.8em; color: gray;">{{ chat.date|date:"M d, Y H:i" }}</div>
+    {% empty %}
+    <p>no conversations yet.Start new</p>
+      
+    {% endfor %}
+
+    <div class="user-input">
+        <form id="chat-form" method="post">
+            {% csrf_token %}
+            <textarea name="text" id="text" rows="3" placeholder="Ask something..." required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <!-- New Chat Response (AJAX) -->
+    <div id="new-response" class="chat-box" style="display:none;"></div>
+</div>
+
+  </div>
+    
+  {% endif %}
+{% endblock content %}
